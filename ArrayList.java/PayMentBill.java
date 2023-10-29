@@ -1,117 +1,142 @@
+
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+class products {
+
+	private int id;
+	private String productName;
+	double price;
+	double quantity;
+
+	public products(int id, String productName, double price, double quantity) {
+		this.id = id;
+		this.productName = productName;
+		this.price = price;
+		this.quantity = quantity;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getProductId() {
+		return id;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public double getQuantity() {
+		return quantity;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("| %-4d  | %-20s | %-4d | %-4d |", id, productName, price, quantity);
+	}
+
+}
 
 public class PayMentBill {
 	private ArrayList<products> arryAdd = new ArrayList<>();
 
-	// List<products1> arry1Add=new ArrayList<>();
+	Scanner sc = new Scanner(System.in);
+
+	// private String productName;
 
 	public void addProduct(products addPro) {
 		arryAdd.add(addPro);
 	}
 
 	public void printProduct() {
+		System.out.println("*************I have product***********");
+		System.out.println("+=======+========+=======+======|");
+		System.out.println("| Id    |   Name |price |Quantity|");
+		System.out.println("+=======+========+=======+======|");
 
-		System.out.println("*************************I have product*****************");
-		System.out.println("+=======+======================+=======+======|");
-		System.out.println("| Id    |   Name               |price  |Quantity|  ");
-		System.out.println("+=======+======================+=======+=====|");
-
-		for (products product : arryAdd) {
-			System.out.println("" + product);
+		for (products data : arryAdd) {
+			System.out.println(data.getProductId() + "\t|" + data.getProductName() + "\t|" + data.getPrice() + "\t|"
+					+ data.getQuantity() + "\t|");
 		}
 
-		System.out.println("+-----------+--------------+----------------+------------");
+		System.out.println("+------+------+-------+-------");
 
-	}
-
-	public void newAdd(products pro1) {
-		arryAdd.add(pro1);
 	}
 
 	public void saleProduct() {
-		Scanner sc=new Scanner(System.in);
 
-//		List<products1> arry1Add=new ArrayList<>();
-		int choice,id;
-		double totalPrice,price,quantity;
-		
-		double discount=0.0;
-		double subtotal=0.0;
-		double sgst=0.0;
-		double cgst=0.0;
-		double overAllPrice=0.0;
-		
-		 do   
-         {  
-             // read input values  
-             System.out.println("Enter the product details: ");  
-             System.out.print("Product ID: ");  
-              id = sc.nextInt();  
-             System.out.print("Product Name: ");  
-              String productName = sc.nextLine(); 
-              
-              boolean found=false;
-              for()
-             System.out.print("Quantity: ");  
-              quantity = sc.nextInt();  
-             System.out.print("Price (per unit): ");  
-              price = sc.nextDouble();  
-             //calculate total price for a particular product  
-             totalPrice = price * quantity;  
-             //calculates overall price  
-              overAllPrice = overAllPrice + totalPrice;  
-              
-             //creates Product class object and add it to the List  
-                products pro1=new products(id,productName, price,quantity);
-              arryAdd.add( new products(id, productName, price, quantity) );  
+		System.out.println("Enter the product details: ");
+		System.out.print("Product ID: ");
+		int id = sc.nextInt();
+		sc.nextLine();
+		sc.nextLine();
+		System.out.print("Product Name: ");
+		String productName = sc.nextLine();
+		double ta = 0, gsta = 0, fa = 0, d = 0;
+		int sq = 0;
+		boolean found = false;
 
-              // ask for continue shopping?  
-             newAdd(pro1);
-             System.out.print("Want to add more items? (y or n): ");  
-             //reads a character Y or N  
-              choice = sc.next().charAt(0);  
-             //read remaining characters, don't store (no use)  
-             sc.nextLine();  
-         }   
-     while (choice == 'y' || choice == 'Y');  
-     //display all product with its properties  
-			System.out.println("*************************I have product*****************");
-			System.out.println("+=======+======================+=======+======|");
-			System.out.println("| Id    |   Name               |price  |Quantity|");
-			System.out.println("+=======+======================+=======+=====|");
-			
-			for(products data:arryAdd) {
-				System.out.println(""+data);
+		for (products p : arryAdd) {
+			found = true;
+			if (p.getProductId() == id || p.getProductName() == productName) {
+
+				System.out.println("Welcome to motherDairy");
+
+				System.out.println("******************I have product***********");
+				System.out.println("+=======+=========+=======+");
+				System.out.println("| Id    |   Name  |price  |");
+				System.out.println("+=======+=========+=======+");
+
+				System.out.println("|" + p.getProductId() + "\t|" + p.getProductName() + "\t|" + p.getPrice() + "|");
+				System.out.println("+=======+=========+=======+");
+
+				System.out.println("Enter the quantity");
+				sq = sc.nextInt();
+				if (sq <= p.getQuantity()) {
+					d = p.getPrice();
+					ta = d * sq;
+					gsta = ta * 0.18;
+					fa = ta + gsta;
+					p.quantity -= sq;
+					System.out.println("******************I have product***********");
+					System.out.println("+=======+=========+=======+======  |");
+					System.out.println("| Id    |   Name  |price  |Quantity|");
+					System.out.println("+=======+=========+=======+========|");
+
+					System.out.println("|" + id + "\t|" + productName + "\t\t|" + d + "\t|" + sq + "\t|");
+					System.out.println("+=======+=========+=======+========|");
+
+					System.out.println("\n\n\t\t\t\t\t\tTotal Amount (Rs.) " + ta);
+
+					System.out.println("\n\n\t\t\t\t\t\tTotal GST (Rs.) " + gsta);
+					System.out.println("\n\n\t\t\t\t\t\tTotal PeyaBale  " + fa);
+					System.out.println("");
+					System.out.println("\t\t\t\t---------------Thank You for Shopping!!-----------------");
+					System.out.println("\t\t\t\t                     Visit Again");
+					break;
+				} else {
+					System.out.println("Insufficent quantity");
+					break;
+				}
 			}
-			
-			System.out.println("+-----------+--------------+----------------+------------");
-			
-			
-		  //price calculation  
-         System.out.println("\n\n\n\n\t\t\t\t\t\t\t\tTotal Amount (Rs.) " +overAllPrice);  
-         //calculating discount  
-         discount = overAllPrice*2/100;  
-         System.out.println("\n\n\t\t\t\t\t\t\t\t    Discount (Rs.) " +discount);  
-         //total amount after discount  
-         subtotal = overAllPrice-discount;   
-         System.out.println("\n\n\t\t\t\t\t\t\t\t          Subtotal "+subtotal);  
-         //calculating tax  
-         sgst=overAllPrice*12/100;  
-         System.out.println("\n\n\t\t\t\t\t\t\t\t          SGST (%) "+sgst);  
-         cgst=overAllPrice*12/100;  
-         System.out.println("\n\n\t\t\t\t\t\t\t\t          CGST (%) "+cgst);  
-         //calculating amount to be paid by buyer  
-         System.out.println("\n\n\t\t\t\t\t\t\t\t     Invoice Total " +(subtotal+cgst+sgst));  
-         System.out.println("\t\t\t\t----------------Thank You for Shopping!!-----------------");  
-         System.out.println("\t\t\t\t                     Visit Again");  
-         // close Scanner  
-         sc.close();  
+		}
+		if (!found) {
+			System.out.println("Not Found");
+		}
 
 	}
 
 	public void searchProduct() {
-		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Enter the product id to search");
 
@@ -122,17 +147,18 @@ public class PayMentBill {
 		for (products product : arryAdd) {
 			if (product.getProductId() == serchProductId && product.getProductName().equals(serachProductName)) {
 				System.out.println("*************************I have product*****************");
-				System.out.println("+=======+======================+=======+======|");
-				System.out.println("| Id    |   Name               |price  |Quantity|  ");
-				System.out.println("+=======+======================+=======+=====|");
-				System.out.println(product);
-				break;
-			} else {
-				System.out.println("Product is not available!!!");
+				System.out.println("+=======+=======+=======+======|");
+				System.out.println("| Id    |Name   |price  |Quantity|  ");
+				System.out.println("+=======+=======+=======+=====|");
+				System.out.println("|" + product.getProductId() + "\t|" + product.getProductName() + "\t|"
+						+ product.getPrice() + "\t|" + product.getQuantity() + "\t|");
+				System.out.println("+=======+=======+=======+=======+");
+			} else if (product.getProductId() != serchProductId && product.getProductName().equals(serachProductName)) {
+
+				System.out.println("Product is not availiable!!!");
 			}
 
 		}
-		sc.close();
 	}
 
 	public static void main(String args[]) {
@@ -143,7 +169,7 @@ public class PayMentBill {
 		System.out.println("\t\t\t\t--------------------Invoice-----------------");
 		System.out.println("\t\t\t\t\t " + "  " + "Metro Mart MotherDairy Shop");
 		System.out.println("\t\t\t\t\t3/98 Accurate Greater Noida");
-		System.out.println("\t\t\t\t\t" + "    " + "Just frount of NIT  Walk");
+		System.out.println("\t\t\t\t\t" + "    " + "Just front of NIT college Walk");
 		System.out.println("GSTIN: 03AWBPP8756K592" + "\t\t\t\t\t\t\tContact: (+91) 7480082596");
 		// format of date and time
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -153,9 +179,12 @@ public class PayMentBill {
 		// prints current date and time
 		System.out.println("Date: " + formatter.format(date) + "  " + days[calendar.get(Calendar.DAY_OF_WEEK) - 1]
 				+ "\t\t\t\t\t\t (+91) 6278180661");
-		// sc.nextLine();
 		System.out.print("Enter Customer Name: ");
 		String customername = sc.nextLine();
+		int id;
+		String productName;
+		int quantity;
+		int price;
 
 		PayMentBill sms = new PayMentBill();
 
@@ -173,24 +202,24 @@ public class PayMentBill {
 
 			switch (choice) {
 				case 1:
-					Scanner sc1 = new Scanner(System.in);
 
 					System.out.print("Product ID's: ");
-					int id = sc1.nextInt();
+					id = sc.nextInt();
 
-					sc1.nextLine();
+					sc.nextLine();
 					System.out.print("Product Name: ");
-					String productName = sc1.nextLine();
+					productName = sc.nextLine();
 
 					System.out.print("Unit Price(): ");
-					double price = sc1.nextInt();
+					price = sc.nextInt();
 
 					System.out.print("Product Quantity: ");
-					double quantity = sc1.nextInt();
+
+					quantity = sc.nextInt();
 
 					products addPro = new products(id, productName, price, quantity);
+					//
 					sms.addProduct(addPro);
-
 					System.out.println("Thank you for Update");
 					break;
 
@@ -207,7 +236,7 @@ public class PayMentBill {
 
 				case 0:
 					System.out.println("Exiting the program");
-
+					sc.close();
 					System.exit(0);
 				default:
 					System.out.println("Worng choice please Enter the choice!");
